@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hairo.springBootMybatis.mappers.AnrResultMapper">
+
+    <!--开启二级缓存-->
+    <!--<cache/>-->
+
+    <!--通过SQL字段-->
+    <sql id="ANR_RESULT_PUBLIC_FIELD">
+        source_cell_cgi,
+        target_cell_cgi,
+        task_uuid,
+        target_cell_name,
+        source_cell_name
+    </sql>
+
+    <!--查询-->
+    <select id="selectResultList" resultType="AnrResult">
+         SELECT
+          <include refid="ANR_RESULT_PUBLIC_FIELD"/>
+        FROM
+            anr_result
+        where
+             task_uuid = #{taskId}
+    </select>
+
+    <!--插入-->
+    <!--<insert id=""></insert>-->
+
+    <!--修改-->
+    <!--<update id=""></update>-->
+
+    <!--删除-->
+    <!--<delete id=""></delete>-->
+</mapper>
