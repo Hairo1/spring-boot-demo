@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="hairo" id="T1_20200218_001">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="zone_table"/>
+            </not>
+            <or>
+                <dbms type="PostgreSQL"/>
+                <!--<runningAs username="SYSTEM"/>-->
+            </or>
+        </preConditions>
+        <createTable tableName="zone_table">
+            <column autoIncrement="true" name="id" type="INT4" remarks="片区ID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="id_primaryKey"/>
+            </column>
+            <column name="city" type="VARCHAR(32)"  remarks="地市名称">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_description" type="VARCHAR(1024)" remarks="片区描述"/>
+            <column name="import_time" type="timestamp" remarks="数据导入时间">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_name" type="VARCHAR(128)" remarks="片区名称">
+                <constraints nullable="false"/>
+            </column>
+            <column name="province" type="VARCHAR(32)" remarks="省份">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="zone_table"/>
+        </rollback>
+        <comment>"创建片区表"</comment>
+        <!--加载数据-->
+        <loadData encoding="gbk"
+                  file="db/fake-data/zone_table.csv"
+                  separator=","
+                  tableName="zone_table"
+                  >
+            <column name="id" type="NUMERIC"/>
+            <column name="zone_name" type="STRING"/>
+            <column name="city" type="STRING"/>
+            <column name="province" type="STRING"/>
+            <column name="zone_description" type="STRING"/>
+            <column name="import_time" type="DATE"/>
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

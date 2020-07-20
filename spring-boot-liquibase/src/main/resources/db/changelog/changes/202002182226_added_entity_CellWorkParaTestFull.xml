@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="hairo" id="T1_20200218_023">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cell_work_para_test_full"/>
+            </not>
+            <or>
+                <dbms type="PostgreSQL"/>
+            </or>
+        </preConditions>
+        <createTable tableName="cell_work_para_test_full">
+            <column name="cgi" type="VARCHAR(128)" remarks="小区CGI"><constraints nullable="false"/> </column>
+            <column name="antenna_angle" type="INT4"  remarks="小区方位角"><constraints nullable="false"/></column>
+            <column name="center_freq_sign" type="INT4" remarks="小区频点"><constraints nullable="false"/></column>
+            <column name="cover_type" type="VARCHAR(30)" remarks="小区覆盖范围(室内/室外)"><constraints nullable="false"/></column>
+            <column name="import_time" type="timestamp" remarks="数据导入时间"><constraints nullable="false"/> </column>
+            <column name="is_remote" type="bool" remarks="是否远区"><constraints nullable="false"/> </column>
+            <column name="latitude" type="float8" remarks="纬度"><constraints nullable="false"/> </column>
+            <column name="longitude" type="float8" remarks="经度"><constraints nullable="false"/> </column>
+            <column name="cell_name" type="VARCHAR(128)" remarks="小区名称"><constraints nullable="false"/> </column>
+            <column name="pci" type="int4" remarks="小区PCI"><constraints nullable="false"/> </column>
+            <column name="vendor" type="VARCHAR(32)" remarks="供应商"><constraints nullable="false"/> </column>
+            <column name="tac" type="int4" remarks="TAC"><constraints nullable="true"/> </column>
+            <column name="state" type="VARCHAR(128)" remarks="网元状态"><constraints nullable="true"/> </column>
+            <column name="city" type="VARCHAR(128)" remarks="地市"><constraints nullable="true"/> </column>
+            <column name="province" type="VARCHAR(128)" remarks="省份"><constraints nullable="true"/> </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="cell_work_para_test_full"/>
+        </rollback>
+        <comment>"创建工参全量表"</comment>
+        <!--加载数据 异常:超过GC开销限制-->
+        <!--<loadData encoding="gbk"-->
+                  <!--file="db/fake-data/cell_work_para.csv"-->
+                  <!--schemaName="public"-->
+                  <!--separator=","-->
+                  <!--tableName="cell_work_para">-->
+            <!--<column name="cgi" type="STRING"/>-->
+            <!--<column name="antenna_angle" type="NUMERIC" />-->
+            <!--<column name="center_freq_sign" type="NUMERIC"/>-->
+            <!--<column name="cover_type" type="STRING"/>-->
+            <!--<column name="import_time" type="DATE"/>-->
+            <!--<column name="is_remote" type="BOOLEAN"/>-->
+            <!--<column name="latitude" type="NUMERIC"/>-->
+            <!--<column name="longitude" type="NUMERIC"/>-->
+            <!--<column name="cell_name" type="STRING"/>-->
+            <!--<column name="pci" type="NUMERIC"/>-->
+            <!--<column name="vendor" type="STRING"/>-->
+            <!--<column name="tac" type="NUMERIC"/>-->
+            <!--<column name="state" type="STRING"/>-->
+            <!--<column name="city" type="STRING"/>-->
+            <!--<column name="province" type="STRING"/>-->
+        <!--</loadData>-->
+    </changeSet>
+</databaseChangeLog>

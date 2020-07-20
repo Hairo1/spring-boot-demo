@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="hairo" id="T1_20200218_011">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="anr_threshold"/>
+            </not>
+            <or>
+                <dbms type="PostgreSQL"/>
+            </or>
+        </preConditions>
+        <createTable tableName="anr_threshold">
+            <column name="attempts_handover_times_down" type="int4" remarks="网管数据: 切换尝试次数下限"><constraints nullable="false"/> </column>
+            <column name="avg_cell_space_fixed_value" type="int4" remarks="片区平均站间距,固定片区平均站间距"><constraints nullable="true"/> </column>
+            <column name="avg_cell_space_top_n" type="int4" remarks="片区平均站间距,选取最近的TOP-N个邻区作为邻区平均站间距"><constraints nullable="true"/> </column>
+            <column name="cell_distance_multiple_down" type="int4" remarks="站间距倍数下限"><constraints nullable="true"/> </column>
+            <column name="cell_distance_multiple_up" type="int4" remarks="站间距倍数上限"><constraints nullable="false"/> </column>
+            <column name="cell_space_up" type="int4" remarks="站间距上限"><constraints nullable="true"/> </column>
+            <column name="inner_point_count" type="int4" remarks="站间距倍数下限所对应的采样点个数下限"><constraints nullable="false"/> </column>
+            <column name="inner_point_percent_down" type="float8" remarks="站间距倍数下限所对应的采样点占比下限"><constraints nullable="false"/> </column>
+            <column name="inner_point_percent_up" type="float8" remarks="站间距倍数下限所对应的采样点占比上限"><constraints nullable="false"/> </column>
+            <column name="inner_rsrp_big" type="float8" remarks="站间距倍数下限所对应的RSRP较大差值"><constraints nullable="false"/> </column>
+            <column name="inner_rsrp_small" type="float8" remarks="站间距倍数下限所对应的RSRP较小差值"><constraints nullable="false"/> </column>
+            <column name="mr_rsrp_difference_up" type="int4" remarks=" MR电平上限"><constraints nullable="true"/> </column>
+            <column name="mr_sampling_down" type="int4" remarks="MR采样点下限"><constraints nullable="true"/> </column>
+            <column name="mr_sampling_ratio_down" type="float8" remarks="MR采样点占比下限"><constraints nullable="true"/> </column>
+            <column name="nc_point_down" type="int4" remarks="邻区采样点门限"><constraints nullable="false"/> </column>
+            <column name="nc_point_per_down" type="float8" remarks="邻区采样点比例"><constraints nullable="false"/> </column>
+            <column name="outer_point_count" type="int4" remarks="站间距倍数下限所对应的采样点个数上限"><constraints nullable="false"/> </column>
+            <column name="outer_point_percent_up" type="float8" remarks="站间距倍数上限所对应的采样点占比"><constraints nullable="false"/> </column>
+            <column name="outer_rsrp" type="float8" remarks="站间距倍数上限所对应的RSRP差值"><constraints nullable="false"/> </column>
+            <column name="point_count" type="int4" remarks="站间距倍数上限所对应的采样点个数"><constraints nullable="false"/> </column>
+            <column name="task_uuid" type="VARCHAR(128)" remarks="任务ID"><constraints primaryKey="true" primaryKeyName="anr_threshold_task_uuid_primaryKey" nullable="false"/> </column>
+        </createTable>
+        <!--添加外键约束-->
+        <addForeignKeyConstraint baseColumnNames="task_uuid"
+                                 baseTableName="anr_threshold"
+                                 constraintName="fk_anr_threshold_task_uuid_task_detail_task_uuid"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="uuid"
+                                 referencedTableName="task_detail"/>
+        <rollback>
+            <dropTable tableName="anr_threshold"/>
+        </rollback>
+        <comment>"创建Anr核查门限设置"</comment>
+    </changeSet>
+</databaseChangeLog>

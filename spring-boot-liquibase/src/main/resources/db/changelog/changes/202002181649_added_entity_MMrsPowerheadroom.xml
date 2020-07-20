@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="hairo" id="T1_20200218_012">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="m_mrs_powerheadroom"/>
+            </not>
+            <or>
+                <dbms type="PostgreSQL"/>
+            </or>
+        </preConditions>
+        <createTable tableName="m_mrs_powerheadroom">
+            <column name="cgi" type="VARCHAR(128)" remarks="小区CGI"><constraints primaryKey="true" primaryKeyName="m_mrs_powerheadroom_cgi_promaruKey" nullable="false"/> </column>
+            <column name="powerheadroom_00" type="int4" remarks="phr0"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_01" type="int4" remarks="phr1"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_02" type="int4" remarks="phr2"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_03" type="int4" remarks="phr3"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_04" type="int4" remarks="phr4"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_05" type="int4" remarks="phr5"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_06" type="int4" remarks="phr6"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_07" type="int4" remarks="phr7"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_08" type="int4" remarks="phr8"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_09" type="int4" remarks="phr9"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_10" type="int4" remarks="phr10"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_11" type="int4" remarks="phr11"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_12" type="int4" remarks="phr12"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_13" type="int4" remarks="phr13"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_14" type="int4" remarks="phr14"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_15" type="int4" remarks="phr15"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_16" type="int4" remarks="phr16"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_17" type="int4" remarks="phr17"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_18" type="int4" remarks="phr18"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_19" type="int4" remarks="phr19"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_20" type="int4" remarks="phr20"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_21" type="int4" remarks="phr21"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_22" type="int4" remarks="phr22"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_23" type="int4" remarks="phr23"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_24" type="int4" remarks="phr24"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_25" type="int4" remarks="phr25"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_26" type="int4" remarks="phr26"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_27" type="int4" remarks="phr27"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_28" type="int4" remarks="phr28"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_29" type="int4" remarks="phr29"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_30" type="int4" remarks="phr30"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_31" type="int4" remarks="phr31"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_32" type="int4" remarks="phr32"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_33" type="int4" remarks="phr33"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_34" type="int4" remarks="phr34"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_35" type="int4" remarks="phr35"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_36" type="int4" remarks="phr36"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_37" type="int4" remarks="phr37"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_38" type="int4" remarks="phr38"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_39" type="int4" remarks="phr39"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_40" type="int4" remarks="phr40"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_41" type="int4" remarks="phr41"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_42" type="int4" remarks="phr42"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_43" type="int4" remarks="phr43"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_44" type="int4" remarks="phr44"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_45" type="int4" remarks="phr45"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_46" type="int4" remarks="phr46"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_47" type="int4" remarks="phr47"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_48" type="int4" remarks="phr48"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_49" type="int4" remarks="phr49"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_50" type="int4" remarks="phr50"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_51" type="int4" remarks="phr51"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_52" type="int4" remarks="phr52"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_53" type="int4" remarks="phr53"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_54" type="int4" remarks="phr54"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_55" type="int4" remarks="phr55"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_56" type="int4" remarks="phr56"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_57" type="int4" remarks="phr57"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_58" type="int4" remarks="phr58"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_59" type="int4" remarks="phr59"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_60" type="int4" remarks="phr60"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_61" type="int4" remarks="phr61"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_62" type="int4" remarks="phr62"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_63" type="int4" remarks="phr63"><constraints nullable="true"/> </column>
+            <column name="powerheadroom_count" type="int4" remarks="任务ID"><constraints nullable="true"/> </column>
+            <column name="start_time" type="timestamp" remarks="启动时间"><constraints nullable="false"/> </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="m_mrs_powerheadroom"/>
+        </rollback>
+        <comment>"创建发射功率余量表"</comment>
+    </changeSet>
+</databaseChangeLog>

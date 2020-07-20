@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="hairo" id="T1_20200218_009">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="anr_association_analysis"/>
+            </not>
+            <or>
+                <dbms type="PostgreSQL"/>
+            </or>
+        </preConditions>
+        <createTable tableName="anr_association_analysis">
+            <column name="switching_failure_diagnosis_analysis" type="VARCHAR(128)" remarks="切换失败目标小区诊断分析，TRUE分析,FALSE不分析"><constraints nullable="false"/> </column>
+            <column name="phr_avg_analysis" type="bool" remarks="邻区漏配-PHR均值分析，TRUE分析,FALSE不分析"><constraints nullable="false"/> </column>
+            <column name="down_weak_ratio_association_analysis" type="bool" remarks="邻区漏配-下行弱覆盖占比分析，TRUE分析,FALSE不分析"><constraints nullable="false"/> </column>
+            <column name="ext_nc_consistency_analysis" type="bool" remarks="外部邻区一致性分析，TRUE分析,FALSE不分析"><constraints nullable="false"/> </column>
+            <column name="task_uuid" type="VARCHAR(128)" remarks="任务ID"><constraints primaryKey="true" primaryKeyName="anr_association_analysis_task_uuid_primaryKey" nullable="false"/> </column>
+        </createTable>
+        <!--添加外键约束-->
+        <addForeignKeyConstraint baseColumnNames="task_uuid"
+                                 baseTableName="anr_association_analysis"
+                                 constraintName="fk_task_detail_uuid_anr_association_analysis_task_uuid"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="uuid"
+                                 referencedTableName="task_detail"/>
+        <rollback>
+            <dropTable tableName="anr_association_analysis"/>
+        </rollback>
+        <comment>"创建关联分析条件设置"</comment>
+    </changeSet>
+</databaseChangeLog>

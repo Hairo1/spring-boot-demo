@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="hairo" id="T1_20200218_026">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cell_neighbor_test_full"/>
+            </not>
+            <or>
+                <dbms type="PostgreSQL"/>
+            </or>
+        </preConditions>
+        <createTable tableName="cell_neighbor_test_full">
+            <column name="enodeb_id" type="VARCHAR(128)" remarks="基站ID"><constraints nullable="true"/> </column>
+            <column name="import_time" type="timestamp" remarks="数据导入时间"><constraints nullable="false"/> </column>
+            <column name="target_earfcn" type="int4" remarks="目标小区频点"><constraints nullable="false"/> </column>
+            <column name="target_pci" type="int4" remarks="目标小区PCI"><constraints nullable="false"/> </column>
+            <column name="target_cell_cgi" type="VARCHAR(128)" remarks="目标小区CGI"><constraints nullable="false"/> </column>
+            <column name="source_cell_cgi" type="VARCHAR(128)" remarks="源小区CGI"><constraints nullable="false"/> </column>
+            <column name="city" type="VARCHAR(128)" remarks="地市"><constraints nullable="true"/> </column>
+            <column name="province" type="VARCHAR(128)" remarks="省份"><constraints nullable="true"/> </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="cell_neighbor_test_full"/>
+        </rollback>
+        <comment>"创建邻区全量表"</comment>
+    </changeSet>
+</databaseChangeLog>

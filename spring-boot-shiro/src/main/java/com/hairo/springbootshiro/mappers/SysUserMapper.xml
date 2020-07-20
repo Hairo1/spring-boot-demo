@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hairo.springbootshiro.mappers.SysUserMapper">
+        <resultMap id="SysUserResult" type="com.hairo.springbootshiro.entity.SysUser">
+            <result column="user_id" property="userId"/>
+            <result column="user_name" property="userName"/>
+            <result column="user_password" property="userPassword"/>
+            <result column="user_age" property="userAge"/>
+            <result column="address" property="address"/>
+            <result column="role_id" property="roleId"/>
+            <collection property="userRole" column="role_id" ofType="com.hairo.springbootshiro.entity.UserRole">
+                <result property="roleId" column="role_id"/>
+                <result property="roleName" column="role_name"/>
+<!--                红色报错正常执行-IDEA问题-->
+                <collection property="permissionsList"  column="role_id" ofType="com.hairo.springbootshiro.entity.Permissions">
+                    <result property="roleId" column="role_id"/>
+                    <result property="permissionsId" column="permissions_id"/>
+                    <result property="permissionsName" column="permissions_name"/>
+                </collection>
+            </collection>
+        </resultMap>
+</mapper>
+    

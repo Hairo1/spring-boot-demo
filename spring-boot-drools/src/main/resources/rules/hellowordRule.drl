@@ -1,0 +1,21 @@
+package rules
+import com.hairo.springbootdrools.entity.User
+no-loop
+rule "helloword"
+    when
+        user:User(username==("Hairo1"),age>=18);
+    then
+        System.err.println("判断后->"+user);
+        System.err.println(user.getUsername());
+        update(user);
+end
+
+rule "helloword1"
+    when
+        user:User(username==("Hairo"),age>=18);
+    then
+        user.setUsername("海羅1号");
+        System.err.println("判断后->"+user);
+        System.err.println(user.getUsername());
+        update(user);
+end

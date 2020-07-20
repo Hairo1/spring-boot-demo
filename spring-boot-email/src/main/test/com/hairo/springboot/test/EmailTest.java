@@ -47,7 +47,7 @@ public class EmailTest {
                     "    <title>Hello, Bootstrap Table!</title>\n" +
                     "  </head>\n" +
                     "  <body>\n" +
-                    "    <table data-toggle=\"table\" id=\"table\">\n" +
+                    "    <table fake-data-toggle=\"table\" id=\"table\">\n" +
                     "      <thead>\n" +
                     "        <tr>\n" +
                     "          <th>Item ID</th>\n" +
@@ -90,7 +90,7 @@ public class EmailTest {
                 "    <title>Hello, Bootstrap Table!</title>\n" +
                 "  </head>\n" +
                 "  <body>\n" +
-                "    <table data-toggle=\"table\" id=\"table\">\n" +
+                "    <table fake-data-toggle=\"table\" id=\"table\">\n" +
                 "      <thead>\n" +
                 "        <tr>\n" +
                 "          <th>Item ID</th>\n" +

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="hairo" id="T1_20200218_004">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="anr_mr_data"/>
+            </not>
+            <or>
+                <dbms type="PostgreSQL"/>
+            </or>
+        </preConditions>
+        <createTable tableName="anr_mr_data">
+            <column name="target_earfcn" type="INT4" remarks="目标小区频点"><constraints nullable="false"/> </column>
+            <column name="target_pci" type="INT4"  remarks="目标小区PCI"><constraints nullable="false"/></column>
+            <column name="start_time" type="timestamp" remarks="启动时间"><constraints nullable="false"/></column>
+            <column name="import_time" type="timestamp" remarks="数据导入时间"><constraints nullable="false"/></column>
+            <column name="rsrp_differential" type="float8" remarks="目标/源小区电平差"><constraints nullable="false"/> </column>
+            <column name="sampling_num" type="int4" remarks="目标小区采样点"><constraints nullable="false"/> </column>
+            <column name="source_earfcn" type="int4" remarks="源小区频点"><constraints nullable="false"/> </column>
+            <column name="source_pci" type="int4" remarks="源小区PCI"><constraints nullable="false"/> </column>
+            <column name="source_rsrp" type="float8" remarks="源小区电平"><constraints nullable="false"/> </column>
+            <column name="target_rsrp" type="float8" remarks="目标小区电平"><constraints nullable="false"/> </column>
+            <column name="source_cell_cgi" type="VARCHAR(128)" remarks="源小区CGI"><constraints nullable="false"/> </column>
+            <column name="province" type="VARCHAR(255)" remarks="省份"><constraints nullable="true"/> </column>
+            <column name="city" type="VARCHAR(255)" remarks="地市"><constraints nullable="true"/> </column>
+        </createTable>
+        <!--添加主键-->
+        <addPrimaryKey tableName="anr_mr_data" columnNames="source_cell_cgi,target_earfcn,target_pci"/>
+        <!--添加外键约束-->
+        <addForeignKeyConstraint baseColumnNames="source_cell_cgi"
+                                 baseTableName="anr_mr_data"
+                                 constraintName="fk_cwp_cgi_mr_source_cell_cgi"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="cgi"
+                                 referencedTableName="cell_work_para"/>
+        <rollback>
+            <dropTable tableName="anr_mr_data"/>
+        </rollback>
+        <comment>"创建MR表"</comment>
+    </changeSet>
+</databaseChangeLog>

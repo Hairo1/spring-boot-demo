@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="hairo" id="T1_20200218_016">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="task_process"/>
+            </not>
+            <or>
+                <dbms type="PostgreSQL"/>
+            </or>
+        </preConditions>
+        <createTable tableName="task_process">
+            <column name="msg_index" type="int4" remarks="信息下标"><constraints nullable="false"/> </column>
+            <column name="task_id" type="VARCHAR(64)" remarks="任务ID"><constraints nullable="false"/> </column>
+            <column name="message_time" type="timestamp" remarks="保存信息时间"><constraints nullable="false"/> </column>
+            <column name="task_process_message" type="VARCHAR(4096)" remarks="任务过程信息"><constraints nullable="false"/> </column>
+            <column name="process_message_arguments" type="VARCHAR(4096)" remarks="过程信息参数"><constraints nullable="true"/> </column>
+            <column name="process_message_key" type="VARCHAR(256)" remarks="过程信息KEY"><constraints nullable="false"/> </column>
+            <column name="source_cell_cgi" type="VARCHAR(32)" remarks="源小区CGI"><constraints nullable="false"/> </column>
+            <column name="source_cell_name" type="VARCHAR(255)" remarks="源小区名称"><constraints nullable="false"/> </column>
+            <column name="task_message_category" type="VARCHAR(30)" remarks="任务信息种类"><constraints nullable="false"/> </column>
+            <column name="zone_name" type="VARCHAR(256)" remarks="任务名称"><constraints nullable="false"/> </column>
+            <column name="zone_id" type="int4" remarks="片区ID"><constraints nullable="true"/> </column>
+        </createTable>
+        <addPrimaryKey columnNames="msg_index,task_id" tableName="task_process" constraintName="msg_index_task_id_PrimaryKey"/>
+        <rollback>
+            <dropTable tableName="task_process"/>
+        </rollback>
+        <comment>"创建任务执行过程信息表"</comment>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <!--tag设置:mvn liquibase:tag -Dliquibase.tag=tagName-->
+    <!--根据tag回滚: mvn liquibase:rollback -Dliquibase.rollbackTag=tagName-->
+    <!--
+        注意:
+        加载数据会出现GC开销异常
+        日期类型不支持DateTime,只支持Date，会出现空指针
+        列重复会抛出异常,目前只有存储过程可以解决delimiter //
+            create procedure add_more_to_logins() begin
+                if not exists(select * from information_schema.COLUMNS
+                          where table_name = 'a' AND column_name = 'b' and table_schema = database()) THEN
+                    alter table a add `is_mobile` tinyint(1) null after reason;
+                end if;
+
+            END;
+            //
+            delimiter ;
+    -->
+    <!--创建片区表-->
+    <include file="db/changelog/changes/202002171743_added_entity_ZoneTable.xml"/>
+    <!--创建小区表-->
+    <include file="db/changelog/changes/202002171838_added_entity_CellTable.xml"/>
+    <!--创建工参表-->
+    <include file="db/changelog/changes/202002181411_added_entity_CellWorkPara.xml"/>
+    <!--创建MR表-->
+    <include file="db/changelog/changes/202002181412_added_entity_AnrMrData.xml"/>
+    <!--创建网管切换表-->
+    <include file="db/changelog/changes/202002181434_added_entity_AnrNetData.xml"/>
+    <!--创建邻区表-->
+    <include file="db/changelog/changes/202002181524_added_entity_CellNeighbor.xml"/>
+    <!--创建ANR分析结果表-->
+    <include file="db/changelog/changes/202002181527_added_entity_AnrResult.xml"/>
+    <!--创建任务详情表-->
+    <include file="db/changelog/changes/202002181528_added_entity_TaskDetail.xml"/>
+    <!--创建关联分析表-->
+    <include file="db/changelog/changes/202002181603_added_entity_AnrAssociationAnalysis.xml"/>
+    <!--创建Anr核查条件设置表-->
+    <include file="db/changelog/changes/202002181613_added_entity_AnrTaskTable.xml"/>
+    <!--创建Anr核查门限设置表-->
+    <include file="db/changelog/changes/202002181631_added_entity_AnrThreshold.xml"/>
+    <!--创建发射功率余量表-->
+    <include file="db/changelog/changes/202002181649_added_entity_MMrsPowerheadroom.xml"/>
+    <!--创建外部邻区一致性核查表-->
+    <include file="db/changelog/changes/202002181702_added_entity_NbConsistency.xml"/>
+    <!--创建RSRP信息表-->
+    <include file="db/changelog/changes/202002181712_added_entity_SumMroRsrpAll15CellD.xml"/>
+    <!--创建切换失败诊断表-->
+    <include file="db/changelog/changes/202002181718_added_entity_SwitchFailedDiagnostic.xml"/>
+    <!--创建片区表-->
+    <include file="db/changelog/changes/202002181732_added_entity_TaskProcess.xml"/>
+    <!--创建任务片区信息表-->
+    <include file="db/changelog/changes/202002181737_added_entity_TaskZoneInfo.xml"/>
+    <!--创建MR测试表-->
+    <include file="db/changelog/changes/202002182219_added_entity_AnrMrDataTest.xml"/>
+    <!--创建MR全量表-->
+    <include file="db/changelog/changes/202002182220_added_entity_AnrMrDataTestFull.xml"/>
+    <!--创建网管切换测试表-->
+    <include file="db/changelog/changes/202002182222_added_entity_AnrNetDataTest.xml"/>
+    <!--创建网管全量表-->
+    <include file="db/changelog/changes/202002182223_added_entity_AnrNetDataTestFull.xml"/>
+    <!--创建工参测试表-->
+    <include file="db/changelog/changes/202002182225_added_entity_CellWorkParaTest.xml"/>
+    <!--创建工参全量表-->
+    <include file="db/changelog/changes/202002182226_added_entity_CellWorkParaTestFull.xml"/>
+    <!--创建邻区测试表-->
+    <include file="db/changelog/changes/202002182227_added_entity_CellNeighborTest.xml"/>
+    <!--创建邻区全量表-->
+    <include file="db/changelog/changes/202002182229_added_entity_CellNeighborTestFull.xml"/>
+    <!--删除邻区全量表-->
+    <!--<include file="db/changelog/changes/202002182239_drop_entity_CellNeighborTestFull.xml"/>-->
+
+
+</databaseChangeLog>

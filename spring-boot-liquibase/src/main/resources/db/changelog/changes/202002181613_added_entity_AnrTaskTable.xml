@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="hairo" id="T1_20200218_010">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="anr_task_table"/>
+            </not>
+            <or>
+                <dbms type="PostgreSQL"/>
+            </or>
+        </preConditions>
+        <createTable tableName="anr_task_table">
+            <column name="analyze_mr_data" type="bool" remarks="是否分析MR数据"><constraints nullable="false"/> </column>
+            <column name="analyze_net_data" type="bool" remarks="是否分析网管切换数据"><constraints nullable="false"/> </column>
+            <column name="avg_cell_space_alg" type="VARCHAR(16)" remarks="片区站间距类型"><constraints nullable="false"/> </column>
+            <column name="chk_cross_nc" type="bool" remarks="是否核查疑似过覆盖小区"><constraints nullable="false"/> </column>
+            <column name="chk_missing_nc" type="bool" remarks="是否核查漏配小区"><constraints nullable="false"/> </column>
+            <column name="chk_mis_nc_pci_chaos" type="bool" remarks="是否核查疑似漏配PCI混淆小区"><constraints nullable="false"/> </column>
+            <column name="chk_mr_cell_work_para_match" type="bool" remarks="是否核查工参和MR数据匹配的数量"><constraints nullable="false"/> </column>
+            <column name="chk_mr_data" type="bool" remarks="是否核查MR数据"><constraints nullable="false"/> </column>
+            <column name="chk_neighbor_net_switch_match" type="bool" remarks="是否核查邻区和网管切换数据匹配的数量"><constraints nullable="false"/> </column>
+            <column name="chk_neighbor_cell_work_para_match" type="bool" remarks="是否核查工参和邻区数据匹配的数量"><constraints nullable="false"/> </column>
+            <column name="chk_neighbor_cell" type="bool" remarks="是否核查邻区数据"><constraints nullable="false"/> </column>
+            <column name="chk_net_data" type="bool" remarks="是否核查网管切换数据"><constraints nullable="false"/> </column>
+            <column name="chk_redundant_nc" type="bool" remarks="是否核查冗余小区"><constraints nullable="false"/> </column>
+            <column name="chk_wrong_nc" type="bool" remarks="是否核查错配小区"><constraints nullable="false"/> </column>
+            <column name="chk_zone_cell_work_para_match" type="bool" remarks="flase"><constraints nullable="false"/> </column>
+            <column name="chk_zone_cell_data" type="bool" remarks="是否核查片区和小区匹配的数量"><constraints nullable="false"/> </column>
+            <column name="chk_source_indoor_target_indoor" type="bool" remarks="是否核查源小区为室内、目标小区为室内"><constraints nullable="true"/> </column>
+            <column name="chk_source_indoor_target_outdoor" type="bool" remarks="是否核查源小区为室内、目标小区为室外"><constraints nullable="true"/> </column>
+            <column name="chk_source_outdoor_target_indoor" type="bool" remarks="是否核查源小区为室外、目标小区为室内"><constraints nullable="true"/> </column>
+            <column name="gen_check_log" type="bool" remarks="是否核查运行日志"><constraints nullable="false"/> </column>
+            <column name="gen_result_summary" type="bool" remarks="是否执行任务汇总"><constraints nullable="false"/> </column>
+            <column name="task_uuid" type="VARCHAR(128)" remarks="任务ID"><constraints primaryKey="true" primaryKeyName="anr_task_table_task_uuid_primaryKey" nullable="false"/> </column>
+        </createTable>
+        <!--添加外键约束-->
+        <addForeignKeyConstraint baseColumnNames="task_uuid"
+                                 baseTableName="anr_task_table"
+                                 constraintName="fk_anr_task_table_task_uuid_task_detail_task_uuid"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="uuid"
+                                 referencedTableName="task_detail"/>
+        <rollback>
+            <dropTable tableName="anr_task_table"/>
+        </rollback>
+        <comment>"创建Anr核查条件设置"</comment>
+    </changeSet>
+</databaseChangeLog>

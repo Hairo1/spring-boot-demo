@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="hairo" id="T1_20200218_015">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="switch_failed_diagnostic"/>
+            </not>
+            <or>
+                <dbms type="PostgreSQL"/>
+            </or>
+        </preConditions>
+        <createTable tableName="switch_failed_diagnostic">
+            <column name="ncell_cgi" type="VARCHAR(128)" remarks="目标小区CGI"><constraints nullable="false"/> </column>
+            <column name="scell_cgi" type="VARCHAR(128)" remarks="源小区CGI"><constraints nullable="false"/> </column>
+            <column name="task_uuid" type="VARCHAR(64)" remarks="任务ID"><constraints nullable="false"/> </column>
+            <column name="record_time" type="timestamp" remarks="记录时间"><constraints nullable="false"/> </column>
+            <column name="scell_ncell_failout_hocancel" type="int4" remarks=""><constraints nullable="true"/> </column>
+            <column name="scell_ncell_failout_hocancel_rate" type="float8" remarks=""><constraints nullable="true"/> </column>
+            <column name="scell_ncell_failout_mme" type="int4" remarks=""><constraints nullable="true"/> </column>
+            <column name="scell_ncell_failout_mme_rate" type="float8" remarks=""><constraints nullable="true"/> </column>
+            <column name="scell_ncell_failout_noreply" type="int4" remarks=""><constraints nullable="true"/> </column>
+            <column name="scell_ncell_failout_noreply_rate" type="float8" remarks=""><constraints nullable="true"/> </column>
+            <column name="scell_ncell_failout_prepfailure" type="int4" remarks=""><constraints nullable="true"/> </column>
+            <column name="scell_ncell_failout_prepfailure_rate" type="float8" remarks=""><constraints nullable="true"/> </column>
+            <column name="scell_ncell_failout_targetillegal" type="int4" remarks=""><constraints nullable="true"/> </column>
+            <column name="scell_ncell_failout_targetillegal_rate" type="float8" remarks=""><constraints nullable="true"/> </column>
+            <column name="scell_ncell_ho_att_count" type="int4" remarks=""><constraints nullable="true"/> </column>
+            <column name="scell_ncell_ho_fail_count" type="int4" remarks=""><constraints nullable="true"/> </column>
+            <column name="scell_ncell_ho_fail_rate" type="float8" remarks=""><constraints nullable="true"/> </column>
+            <column name="scell_ncell_ho_succ_rate" type="float8" remarks=""><constraints nullable="true"/> </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="switch_failed_diagnostic"/>
+        </rollback>
+        <comment>"创建切换失败诊断表"</comment>
+    </changeSet>
+</databaseChangeLog>

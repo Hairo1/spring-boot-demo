@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hairo.dao.TaskDetailDao">
+
+    <resultMap type="com.hairo.entity.TaskDetail" id="TaskDetailMap">
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TaskDetailMap">
+        select
+          
+        from public.task_detail
+        where  = #{}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TaskDetailMap">
+        select
+          
+        from public.task_detail
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TaskDetailMap">
+        select
+          
+        from public.task_detail
+        <where>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="" useGeneratedKeys="true">
+        insert into public.task_detail()
+        values ()
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update public.task_detail
+        <set>
+        </set>
+        where  = #{}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from public.task_detail where  = #{}
+    </delete>
+
+</mapper>

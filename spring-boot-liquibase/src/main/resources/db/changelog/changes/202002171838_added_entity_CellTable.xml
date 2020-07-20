@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="hairo" id="T1_20200218_002">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cell_table"/>
+            </not>
+            <or>
+                <dbms type="PostgreSQL"/>
+            </or>
+        </preConditions>
+        <createTable tableName="cell_table">
+            <column name="zone_id" type="INT4" remarks="片区ID"><constraints nullable="false"/> </column>
+            <column name="cgi" type="VARCHAR(128)"  remarks="小区CGI"><constraints nullable="false"/></column>
+            <column name="is_protection_band" type="bool" remarks="是否保护带"><constraints nullable="false"/></column>
+            <column name="import_time" type="timestamp" remarks="数据导入时间"><constraints nullable="false"/></column>
+            <column name="cell_name" type="VARCHAR(128)" remarks="小区名称"><constraints nullable="false"/> </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="cell_table"/>
+        </rollback>
+        <comment>"创建小区表,且从CSV文件加载数据到表"</comment>
+        <!--添加外键约束-->
+        <addForeignKeyConstraint baseColumnNames="zone_id"
+                                 baseTableName="cell_table"
+                                 constraintName="fk_zone_table_id_cell_table_zone_id"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="zone_table"
+        />
+        <!--加载数据-->
+        <!--<loadData encoding="gbk"-->
+                  <!--file="db/fake-data/cell_table.csv"-->
+                  <!--schemaName="public"-->
+                  <!--separator=","-->
+                  <!--tableName="cell_table">-->
+            <!--<column name="zone_id" type="NUMERIC"/>-->
+            <!--<column name="cgi" type="STRING"/>-->
+            <!--<column name="is_protection_band" type="BOOLEAN"/>-->
+            <!--<column name="cell_name" type="STRING"/>-->
+            <!--<column name="import_time" type="DATE"/>-->
+        <!--</loadData>-->
+    </changeSet>
+</databaseChangeLog>

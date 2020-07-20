@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="hairo" id="T1_20200218_013">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="nb_consistency"/>
+            </not>
+            <or>
+                <dbms type="PostgreSQL"/>
+            </or>
+        </preConditions>
+        <createTable tableName="nb_consistency">
+            <column name="ncell_cgi" type="VARCHAR(128)" remarks="目标小区CGI"><constraints nullable="false"/> </column>
+            <column name="scell_cgi" type="VARCHAR(128)" remarks="源小区CGI"><constraints nullable="false"/> </column>
+            <column name="task_uuid" type="VARCHAR(128)" remarks="任务ID"><constraints nullable="false"/> </column>
+            <column name="eutran_cell_tdd_dl_earfcn" type="int4" remarks="工参表的频点"><constraints nullable="false"/> </column>
+            <column name="eutran_cell_tdd_pci" type="int4" remarks="工参表的PCI"><constraints nullable="true"/> </column>
+            <column name="eutran_cell_tdd_tac" type="int4" remarks="工参表的TAC"><constraints nullable="true"/> </column>
+            <column name="eutran_relation_tdd_dl_earfcn" type="int4" remarks="邻区表的频点"><constraints nullable="true"/> </column>
+            <column name="eutran_relation_tdd_pci" type="int4" remarks="邻区表的PCI"><constraints nullable="true"/> </column>
+            <column name="eutran_relation_tdd_tac" type="int4" remarks="邻区表的TAC"><constraints nullable="true"/> </column>
+            <column name="is_dl_earfcnsame" type="VARCHAR(128)" remarks="频点是否一致"><constraints nullable="true"/> </column>
+            <column name="is_pcisame" type="VARCHAR(128)" remarks="pci是否一致"><constraints nullable="true"/> </column>
+            <column name="is_tacsame" type="VARCHAR(128)" remarks="tac是否一致"><constraints nullable="true"/> </column>
+            <column name="record_time" type="timestamp" remarks="记录时间"><constraints nullable="false"/> </column>
+            <column name="scell_isd" type="float8" remarks="源小区平均站间距"><constraints nullable="true"/> </column>
+        </createTable>
+        <addPrimaryKey columnNames="ncell_cgi,scell_cgi,task_uuid" tableName="nb_consistency" constraintName="ncell_cgi_scell_cgi_task_uuid_primaryKey"/>
+        <rollback>
+            <dropTable tableName="nb_consistency"/>
+        </rollback>
+        <comment>"创建外部邻区一致性核查表"</comment>
+    </changeSet>
+</databaseChangeLog>

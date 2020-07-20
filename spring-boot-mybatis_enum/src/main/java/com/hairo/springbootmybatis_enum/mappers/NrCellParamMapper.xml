@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hairo.springbootmybatis_enum.mappers.NrCellParamMapper">
+
+    <resultMap type="com.hairo.springbootmybatis_enum.model.CellWorkParam" id="NrCellParamMap">
+        <result column="city" property="city" typeHandler="com.hairo.springbootmybatis_enum.code.handler.EnumTypeHandler"/>
+        <result column="CGI" property="cgi"/>
+        <result column="CELL_NAME" property="cellName"/>
+        <result column="AZIMUTH" property="azimuth"/>
+        <result column="FREQ_POINT" property="freqPoint"/>
+        <result column="STATION_TYPE" property="cellType" typeHandler="com.hairo.springbootmybatis_enum.code.handler.EnumTypeHandler"/>
+        <result column="LATITUDE" property="latitude"/>
+        <result column="LONGITUDE" property="longitude"/>
+        <result column="PCI" property="pci"/>
+        <result column="VENDOR_TYPE" property="vendor" typeHandler="com.hairo.springbootmybatis_enum.code.handler.EnumTypeHandler"/>
+        <result column="IMPORT_TIME" property="importTime"/>
+        <result column="STATE" property="state"/>
+        <result column="SCENE_TYPE" property="sceneType" typeHandler="com.hairo.springbootmybatis_enum.code.handler.EnumTypeHandler"/>
+        <result column="GNODEB_NAME" property="gnodebName"/>
+        <result column="FREQ" property="freq"/>
+        <result column="AREA_TYPE" property="areaType" typeHandler="com.hairo.springbootmybatis_enum.code.handler.EnumTypeHandler"/>
+        <result column="PLAN_EP" property="planEp"/>
+        <result column="USETIME" property="useTime"/>
+        <result column="grid" property="grid"/>
+        <result column="county" property="county"/>
+        <result column="network_type" property="networkType"/>
+    </resultMap>
+
+    <sql id="NRCELL_PARAM_ALL_FIELD">
+            cgi,
+            cell_name,
+            longitude,
+            latitude,
+            city,
+            station_type,
+            area_type,
+            vendor_type,
+            scene_type,
+            azimuth,
+            state,
+            import_time,
+            gnodeb_name,
+            pci,
+            freq_point,
+            freq,
+            plan_ep,
+            usetime,
+            grid,
+            county,
+            network_type
+    </sql>
+
+    <insert id="batchInsertNrCellParam">
+        INSERT INTO nrcell_param(
+        <include refid="NRCELL_PARAM_ALL_FIELD"/>
+        )
+        VALUES
+        <foreach collection="cellWorkParamList" separator="," item="item">
+            (
+            #{item.cgi},
+            #{item.cellName},
+            #{item.longitude},
+            #{item.latitude},
+            #{item.city},
+            #{item.cellType},
+            #{item.areaType},
+            #{item.vendor},
+            #{item.sceneType},
+            #{item.azimuth},
+            #{item.state},
+            #{item.importTime},
+            #{item.gnodebName},
+            #{item.pci},
+            #{item.freqPoint},
+            #{item.freq},
+            #{item.planEp},
+            #{item.useTime},
+            #{item.grid},
+            #{item.county},
+            #{item.networkType}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteAllNrCellParam">
+        delete from nrcell_param
+    </delete>
+
+
+    <select id="selectAllNrCellParamByStatus" resultMap="NrCellParamMap">
+        SELECT
+        <include refid="NRCELL_PARAM_ALL_FIELD"/>
+        FROM nrcell_param
+        <!--where state IN-->
+        <!--<foreach-->
+                <!--collection="statusList"-->
+                <!--item="status"-->
+                <!--open="("-->
+                <!--separator=","-->
+                <!--close=")">-->
+            <!--#{status}-->
+        <!--</foreach>-->
+    </select>
+
+    <select id="selectAllNrCellParam" resultMap="NrCellParamMap">
+        SELECT
+        <include refid="NRCELL_PARAM_ALL_FIELD"/>
+        FROM nrcell_param
+    </select>
+
+    <select id="selectNrCellParamImportDate" resultType="java.util.Date">
+        SELECT
+            import_time
+        FROM nrcell_param
+        LIMIT 1
+    </select>
+
+</mapper>

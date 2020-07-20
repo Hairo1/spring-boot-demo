@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="hairo" id="T1_20200218_42">
+        <preConditions onFail="MARK_RAN" onErrorMessage="字段[source_cell_cgi1]已存在,添加列失败" >
+            <not>
+                <columnExists columnName="source_cell_cgi" tableName="cell_neighbor_test_full" schemaName="public" />
+            </not>
+            <and>
+                <dbms type="PostgreSQL"/>
+            </and>
+        </preConditions>
+        <addColumn  tableName="cell_neighbor_test_full" schemaName="public" >
+            <column name="source_cell_cgi1" type="VARCHAR(128)" remarks="源小区CGI"><constraints nullable="false" /></column>
+        </addColumn>
+        <rollback>
+            <dropColumn  columnName="source_cell_cgi" tableName="cell_neighbor_test_full" schemaName="public"/>
+        </rollback>
+        <comment>"邻区全量表添加列 source_cell_cgi"</comment>
+    </changeSet>
+</databaseChangeLog>

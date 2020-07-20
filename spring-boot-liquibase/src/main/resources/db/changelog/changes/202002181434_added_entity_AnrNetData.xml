@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="hairo" id="T1_20200218_005">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="anr_net_data"/>
+            </not>
+            <or>
+                <dbms type="PostgreSQL"/>
+            </or>
+        </preConditions>
+        <createTable tableName="anr_net_data">
+            <column name="average_switching_times" type="INT4" remarks="平均切换次数"><constraints nullable="false"/> </column>
+            <column name="import_time" type="timestamp" remarks="数据导入时间"><constraints nullable="false"/> </column>
+            <column name="start_time" type="timestamp" remarks="启动时间"><constraints nullable="false"/> </column>
+            <column name="switching_success_rate" type="float8" remarks="切换成功率"><constraints nullable="false"/> </column>
+            <column name="switching_times" type="int4" remarks="切换次数"><constraints nullable="false"/> </column>
+            <column name="target_cell_cgi" type="VARCHAR(128)" remarks="目标小区CGI"><constraints nullable="false"/> </column>
+            <column name="source_cell_cgi" type="VARCHAR(128)" remarks="源小区CGI"><constraints nullable="false"/> </column>
+            <column name="city" type="VARCHAR(128)" remarks="地市"><constraints nullable="true"/> </column>
+            <column name="province" type="VARCHAR(128)" remarks="省份"><constraints nullable="true"/> </column>
+        </createTable>
+        <!--添加主键-->
+        <addPrimaryKey tableName="anr_net_data" columnNames="source_cell_cgi,target_cell_cgi"/>
+        <!--添加外键约束-->
+        <addForeignKeyConstraint baseColumnNames="source_cell_cgi"
+                                 baseTableName="anr_net_data"
+                                 constraintName="fk_cwp_cgi_net_source_cell_cgi"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="cgi"
+                                 referencedTableName="cell_work_para"/>
+        <!--添加外键约束-->
+        <addForeignKeyConstraint baseColumnNames="target_cell_cgi"
+                                 baseTableName="anr_net_data"
+                                 constraintName="fk_cwp_cgi_net_target_cell_cgi"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="cgi"
+                                 referencedTableName="cell_work_para"/>
+        <rollback>
+            <dropTable tableName="anr_net_data"/>
+        </rollback>
+        <comment>"创建网管切换表"</comment>
+    </changeSet>
+</databaseChangeLog>

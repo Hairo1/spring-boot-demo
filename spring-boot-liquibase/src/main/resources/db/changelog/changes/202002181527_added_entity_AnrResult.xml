@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="hairo" id="T1_20200218_007">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="anr_result"/>
+            </not>
+            <or>
+                <dbms type="PostgreSQL"/>
+            </or>
+        </preConditions>
+        <createTable tableName="anr_result">
+            <column name="target_cell_cgi" type="VARCHAR(128)" remarks="目标小区CGI"><constraints nullable="false"/> </column>
+            <column name="source_cell_cgi" type="VARCHAR(128)" remarks="源小区CGI"><constraints nullable="false"/> </column>
+            <column name="task_uuid" type="VARCHAR(64)" remarks="任务ID"><constraints nullable="false"/> </column>
+            <column name="average_switching_times" type="int4" remarks="平均切换次数"><constraints nullable="true"/> </column>
+            <column name="cell_distance" type="float8" remarks="两小区的距离"><constraints nullable="false"/> </column>
+            <column name="description" type="VARCHAR(4096)" remarks="小区对描述"><constraints nullable="true"/> </column>
+            <column name="mr_sampling_per" type="float8" remarks="频点"><constraints nullable="true"/> </column>
+            <column name="result_type" type="VARCHAR(32)" remarks="结果类型"><constraints nullable="false"/> </column>
+            <column name="rsrp_differential" type="float8" remarks="电平差"><constraints nullable="true"/> </column>
+            <column name="sampling_num" type="INT4" remarks="采样点"><constraints nullable="false"/> </column>
+            <column name="source_cell_name" type="VARCHAR(255)" remarks="源小区名称"><constraints nullable="false"/> </column>
+            <column name="switching_success_rate" type="float8" remarks="切换成功率"><constraints nullable="true"/> </column>
+            <column name="target_cell_name" type="VARCHAR(255)" remarks="目标小区名称"><constraints nullable="false"/> </column>
+            <column name="target_cover_type" type="VARCHAR(30)" remarks="目标小区覆盖类型"><constraints nullable="false"/> </column>
+        </createTable>
+        <!--添加主键-->
+        <addPrimaryKey tableName="anr_result" columnNames="source_cell_cgi,target_cell_cgi,task_uuid"/>
+        <rollback>
+            <dropTable tableName="anr_result"/>
+        </rollback>
+        <comment>"创建ANR输出结果表"</comment>
+    </changeSet>
+</databaseChangeLog>

@@ -8,6 +8,13 @@
     <!--开启二级缓存-->
     <!--<cache/>-->
 
+    <resultMap id="ANR_RESULT_MAP" type="com.hairo.springBootMybatis.pojo.AnrResult">
+        <result column="source_cell_cgi" property="sourceCellName"/>
+        <result column="target_cell_cgi" property="targetCellName"/>
+        <result column="task_uuid" property="taskId"/>
+        <result column="target_cell_name" property="targetCellName"/>
+        <result column="source_cell_name" property="sourceCellName"/>
+    </resultMap>
     <!--通过SQL字段-->
     <sql id="ANR_RESULT_PUBLIC_FIELD">
         source_cell_cgi,
@@ -18,7 +25,7 @@
     </sql>
 
     <!--查询-->
-    <select id="selectResultList" resultType="AnrResult">
+    <select id="selectResultList" resultMap="ANR_RESULT_MAP">
          SELECT
           <include refid="ANR_RESULT_PUBLIC_FIELD"/>
         FROM

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hairo.testeacycode.dao.AnrCheckDataDao">
+
+    <resultMap type="com.hairo.testeacycode.entity.AnrCheckData" id="AnrCheckDataMap">
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AnrCheckDataMap">
+        select
+          
+        from npat_all.anr_check_data
+        where  = #{}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AnrCheckDataMap">
+        select
+          
+        from npat_all.anr_check_data
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="AnrCheckDataMap">
+        select
+          
+        from npat_all.anr_check_data
+        <where>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="" useGeneratedKeys="true">
+        insert into npat_all.anr_check_data()
+        values ()
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update npat_all.anr_check_data
+        <set>
+        </set>
+        where  = #{}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from npat_all.anr_check_data where  = #{}
+    </delete>
+
+</mapper>

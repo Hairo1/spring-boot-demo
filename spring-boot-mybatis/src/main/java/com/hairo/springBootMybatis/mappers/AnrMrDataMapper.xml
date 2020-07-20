@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hairo.springBootMybatis.mappers.AnrMrDataMapper">
+    <resultMap id="selectAnrMrDataResultMap" type="com.hairo.springBootMybatis.pojo.AnrMrData">
+        <result column="TARGET_EARFCN" property="targetEarfcn"/>
+        <result column="SOURCE_CELL_CGI" property="sourceCellCgi"/>
+        <result column="RSRP_DIFFERENTIAL" property="rsrpDifferential"/>
+        <result column="SAMPLING_NUM" property="samplingNumber"/>
+        <result column="SOURCE_PCI" property="sourcePci"/>
+        <result column="SOURCE_RSRP" property="sourceRsrp"/>
+        <result column="SOURCE_EARFCN" property="sourceEarfcn"/>
+        <result column="TARGET_RSRP" property="targetRsrp"/>
+        <result column="TARGET_PCI" property="targetPci"/>
+        <result column="IMPORT_TIME" property="importTime"/>
+        <result column="START_TIME" property="startTime"/>
+    </resultMap>
+
+    <select id="selectMrDataByZone" fetchSize="50000" resultMap="selectAnrMrDataResultMap">
+        select
+            amd.source_cell_cgi,
+            amd.rsrp_differential,
+            amd.sampling_num,
+            amd.source_rsrp,
+            amd.target_earfcn,
+            amd.target_pci,
+            amd.target_rsrp
+        from
+            anr_mr_data_test_full as amd
+        inner join (
+                select c.cgi
+            from
+                cell_work_para as c
+            inner join cell_table as t on
+                c.cgi = t.cgi
+            where
+                t.zone_id = #{zoneId}
+                and c.state = '现网有业务'
+                and t.is_protection_band = false) as cwp on
+            cwp.cgi = amd.source_cell_cgi
+    </select>
+
+
+</mapper>

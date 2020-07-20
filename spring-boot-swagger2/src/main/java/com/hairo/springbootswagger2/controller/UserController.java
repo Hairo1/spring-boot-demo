@@ -1,9 +1,14 @@
 package com.hairo.springbootswagger2.controller;
 
+import com.hairo.springbootswagger2.data.GetPlanSuggestRequest;
+import com.hairo.springbootswagger2.data.NrCellPlanCellRequest;
 import com.hairo.springbootswagger2.pojo.User;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 /**
  * @author ： Hairo
@@ -47,9 +52,9 @@ public class UserController {
             @ApiResponse(code = 404, message = "用户名称已存在")
     })
     @PostMapping("/find-user/{userName}")
-    public User addUser(@PathVariable String userName) {
-        log.info("add user {}", userName);
-        return User.builder().userName(userName).age(18).sex("🚹").build();
+    public User addUser(@ApiParam(name = "planCellRequest", value = "规划站工参列表", required = true) @RequestBody @Valid NrCellPlanCellRequest planCellRequest,
+                        HttpServletRequest request) {
+        return User.builder().userName("").age(18).sex("🚹").build();
     }
 
     @ApiOperation(value = "根据用户名称修改用户", notes = "接口发布说明", produces = "application/json;charset=UTF-8")

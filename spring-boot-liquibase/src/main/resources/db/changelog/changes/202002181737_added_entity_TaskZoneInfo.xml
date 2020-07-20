@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="hairo" id="T1_20200218_017">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="task_zone_info"/>
+            </not>
+            <or>
+                <dbms type="PostgreSQL"/>
+            </or>
+        </preConditions>
+        <createTable tableName="task_zone_info">
+            <column name="avg_cell_distance" type="float8" remarks="片区平均站间距"><constraints nullable="true"/> </column>
+            <column name="zone_execution_result" type="VARCHAR(256)" remarks="片区执行结果"><constraints nullable="true"/> </column>
+            <column name="task_uuid" type="VARCHAR(256)" remarks="任务Id"><constraints nullable="false"/> </column>
+            <column name="zone_name" type="VARCHAR(256)" remarks="片区名称"><constraints nullable="true"/> </column>
+            <column name="zone_id" type="int4" remarks="片区ID"><constraints nullable="false"/> </column>
+        </createTable>
+        <addPrimaryKey columnNames="task_uuid,zone_id" tableName="task_zone_info" constraintName="task_zone_info_task_uuid_zone_id_PrimaryKey"/>
+        <!--添加外键约束-->
+        <addForeignKeyConstraint baseColumnNames="task_uuid"
+                                 baseTableName="task_zone_info"
+                                 constraintName="fk_task_zone_info_task_uuid_task_detail_uuid"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="uuid"
+                                 referencedTableName="task_detail"/>
+        <rollback>
+            <dropTable tableName="task_zone_info"/>
+        </rollback>
+        <comment>"创建任务片区信息表"</comment>
+    </changeSet>
+</databaseChangeLog>
